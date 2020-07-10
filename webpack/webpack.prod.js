@@ -6,11 +6,12 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const safePostCssParser = require('postcss-safe-parser');
 
 const { common } = require('./webpack.common');
-const { rootBaseProject, moduleRegex } = require('./config');
+const { rootBaseProject } = require('./config');
+const getRules = require('./rules');
 
 const useSourceMap = false; // should use source map
 
@@ -28,81 +29,7 @@ module.exports = merge(common, {
   },
 
   module: {
-    rules: [
-      {
-        oneOf: [
-          {
-            test: /\.jsx?/,
-            exclude: /node_modules/,
-            use: [
-              {
-                loader: 'babel-loader',
-                options: {
-                  compact: true
-                }
-              },
-              'eslint-loader'
-            ]
-          },
-          {
-            test: /\.(png|jpg|jpeg|gif|bmp)$/,
-            loader: 'url-loader',
-            options: {
-              limit: 10000,
-              name: 'assets/[name].[hash:8].[ext]'
-            }
-          },
-          {
-            test: /\.css$/,
-            use: [
-              {
-                loader: MiniCssExtractPlugin.loader,
-                options: {
-                  hmr: false,
-                },
-              },
-              {
-                loader: 'css-loader',
-                options: {
-                  sourceMap: useSourceMap,
-                }
-              },
-            ],
-          },
-          {
-            test: /\.scss$/,
-            use: [
-              {
-                loader: MiniCssExtractPlugin.loader,
-                options: {
-                  hmr: false,
-                },
-              },
-              {
-                loader: 'css-loader',
-                options: {
-                  importLoaders: 1,
-                  sourceMap: useSourceMap,
-                }
-              },
-              {
-                loader: 'sass-loader',
-                options: {
-                  sourceMap: useSourceMap
-                }
-              }
-            ],
-          },
-          {
-            exclude: [/\.js$/, /\.html$/, /\.json$/],
-            loader: 'file-loader',
-            options: {
-              name: 'assets/[name].[hash:8].[ext]'
-            }
-          }
-        ]
-      }
-    ]
+    rules: getRules(useSourceMap),
   },
   plugins: [
     new CleanWebpackPlugin({
@@ -114,13 +41,13 @@ module.exports = merge(common, {
     new CopyPlugin(
       [
         {
-          from: root('/dll'),
-          to: root('/dist/dll'),
+          from: rootBaseProject('/dll'),
+          to: rootBaseProject('/dist/dll'),
           toType: 'dir'
         },
         {
-          from: root('/src/assets'),
-          to: root('/dist/assets'),
+          from: rootBaseProject('/src/assets'),
+          to: rootBaseProject('/dist/assets'),
           toType: 'dir'
         }
       ],
@@ -133,7 +60,7 @@ module.exports = merge(common, {
 
     new HtmlWebpackPlugin({
       inject: true,
-      template: root('src/index.html'),
+      template: rootBaseProject('src/index.html'),
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -164,7 +91,7 @@ module.exports = merge(common, {
       // Options similar to the same options in webpackOptions.output
       // all options are optional
       filename: 'assets/css/[name].[contenthash:8].css',
-      chunkFilename: 'assets/css/[id].css',
+      chunkFilename: 'assets/css/[name].[contenthash:8].chunk.css',
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
 
@@ -203,8 +130,8 @@ module.exports = merge(common, {
             safari10: true,
           },
           // Added for profiling in devtools
-          keep_classnames: isEnvProductionProfile,
-          keep_fnames: isEnvProductionProfile,
+          // keep_classnames: isEnvProductionProfile,
+          // keep_fnames: isEnvProductionProfile,
           output: {
             ecma: 5,
             comments: false,
@@ -213,7 +140,7 @@ module.exports = merge(common, {
             ascii_only: true,
           },
         },
-        sourceMap: shouldUseSourceMap,
+        sourceMap: useSourceMap,
       }),
       new OptimizeCSSAssetsPlugin({
         cssProcessorOptions: {

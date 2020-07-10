@@ -1,16 +1,23 @@
 [production]
-Chrome 68
-IE 11
-Firefox 56
-Opera 48
-Safari 11
->0.2%
+> 1%
 not dead
 not op_mini all
+Firefox ESR
+
+Chrome >= 68
+IE 11
+Firefox >= 56
+Opera >= 48
+Safari >= 11
 
 [development]
-Chrome 68
+> 1%
+not dead
+not op_mini all
+Firefox ESR
+
+Chrome >= 68
 IE 11
-Firefox 56
-Opera 48
-Safari 11
+Firefox >= 56
+Opera >= 48
+Safari >= 11

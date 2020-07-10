@@ -26,7 +26,7 @@ exports.common = {
 
     new DllReferencePlugin({
       context: __dirname,
-      manifest: dllVendor
+      manifest: rootBaseProject('dll/vendor-manifest.json'),
     }),
 
     new BannerPlugin('©2017-2020 honeymorning.com taylorpzreal@gmail.com')

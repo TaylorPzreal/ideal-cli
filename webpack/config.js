@@ -38,13 +38,13 @@ const constants = {
 };
 
 // common function to get style loaders
-const getStyleLoaders = (env, useSourceMap, cssOptions, preProcessor) => {
-  const isEnvDevelopment = env === 'development';
-  const isEnvProduction = env === 'production';
+const getStyleLoaders = (useSourceMap, cssOptions, preProcessor) => {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  const isProduction = process.env.NODE_ENV === 'production';
 
   const loaders = [
-    isEnvDevelopment && require.resolve('style-loader'),
-    isEnvProduction && {
+    isDevelopment && require.resolve('style-loader'),
+    isProduction && {
       loader: MiniCssExtractPlugin.loader,
       // css is located in `assets/css`, use '../../' to locate index.html folder
       // in production `paths.publicUrlOrPath` can be a relative path
@@ -78,7 +78,7 @@ const getStyleLoaders = (env, useSourceMap, cssOptions, preProcessor) => {
           // which in turn let's users customize the target behavior as per their needs.
           postcssNormalize(),
         ],
-        sourceMap: isEnvProduction && useSourceMap,
+        sourceMap: isProduction && useSourceMap,
       },
     },
   ].filter(Boolean);
@@ -87,7 +87,7 @@ const getStyleLoaders = (env, useSourceMap, cssOptions, preProcessor) => {
       {
         loader: require.resolve('resolve-url-loader'),
         options: {
-          sourceMap: isEnvProduction && useSourceMap,
+          sourceMap: isProduction && useSourceMap,
         },
       },
       {
