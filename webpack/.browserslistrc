@@ -1,0 +1,16 @@
+[production]
+Chrome 68
+IE 11
+Firefox 56
+Opera 48
+Safari 11
+>0.2%
+not dead
+not op_mini all
+
+[development]
+Chrome 68
+IE 11
+Firefox 56
+Opera 48
+Safari 11
