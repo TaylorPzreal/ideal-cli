@@ -3,8 +3,6 @@ const webpackDevConfig = require('./webpack.dev');
 // const webpackProdConfig = require('./webpack.prod');
 // const webpackLibConfig = require('./webpack.lib');
 
-// const command = process.argv.slice(1);
-
 function init(command) {
   switch(command) {
     case 'start':

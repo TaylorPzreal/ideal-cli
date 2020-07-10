@@ -12,8 +12,6 @@ exports.common = {
     extensions: moduleFileExtensions
   },
   module: {
-    // TODO: config
-    strictExportPresence: true,
   },
   plugins: [
     new ProgressPlugin(),
