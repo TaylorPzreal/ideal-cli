@@ -21,6 +21,16 @@ npm i fe-cli@latest -D -E
 npx fe-cli init
 ```
 
+```json
+{
+  "scripts": {
+    "start": "fe-cli start",
+    "build": "fe-cli build",
+    "build-lib": "fe-cli build-lib"
+  }
+}
+```
+
 ## browserslist example
 
 Add configuration to ```package.json```
@@ -50,5 +60,19 @@ If project uses __react__, you should config local ```.babelrc```:
   "presets": [
     "react-app"
   ]
+}
+```
+
+## lint
+
+```bash
+npx eslint --init
+```
+
+```json
+{
+  "lint": "eslint 'src/**/*.[tj]s?(x)'",
+  "lint-fix": "npm run lint -- --fix",
+  "format": "prettier 'src/**/*.[tj]s?(x)' && npm run lint-fix"
 }
 ```
