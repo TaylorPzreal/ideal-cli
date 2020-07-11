@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "前端工具集",
   "bin": {
-    "fe-cli": "./bin/fe-cli.js"
+    "fe-cli": "./bin/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

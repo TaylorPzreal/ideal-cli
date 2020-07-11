@@ -11,9 +11,12 @@ program
 program
   .command('init')
   .description('Initialize configuration')
+  .option('--useTypeScript', 'The main language is TypeScript')
+  .option('--isLibrary', 'The project is a common library')
   .action((cmd) => {
-    console.log('Initializing ... ')
-    init();
+    console.log('Initializing ... ');
+    const { useTypeScript, isLibrary } = cmd;
+    init({ useTypeScript, isLibrary });
   })
 
 program
@@ -57,5 +60,3 @@ program
 program
   .parse(process.argv);
 
-
-console.log(process.argv)

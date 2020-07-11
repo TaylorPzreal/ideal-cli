@@ -1,12 +1,15 @@
 const path = require('path');
 const fs = require('fs');
+const { resolve } = require('path');
 
 const packagePath = path.resolve(process.cwd() + '/package.json');
 const packageJSON = require(packagePath);
 
 // TODO: check errors
-function updateLocalPackage() {
+function updateLocalPackage(options = {}) {
+  const { isLibrary } = options;
   const { scripts, browserslist } = packageJSON;
+
   if (!scripts.start) {
     packageJSON.scripts.start = 'fe-cli start';
   } else {
@@ -19,7 +22,7 @@ function updateLocalPackage() {
     console.log('Ignore scripts build');
   }
 
-  if (!scripts['build-lib']) {
+  if (isLibrary && !scripts['build-lib']) {
     packageJSON.scripts['build-lib'] = 'fe-cli build-lib'
   } else {
     console.log('Ignore scripts build-lib');
@@ -70,28 +73,78 @@ function updateLocalPackage() {
   })
 }
 
-function addPrettier() {
-  const src = path.resolve(__dirname, '..', 'lint/.prettierrc');
-  const target = path.resolve(process.cwd(), '.prettierrc');
-
-  console.log(src, target);
-
-  if (fs.existsSync(target)) {
-    return;
-  }
-
-  fs.copyFile(src, target, (err) => {
-    if (err) {
-      console.log(err);
-      return;
+function addFile(src, target) {
+  return new Promise((resolve, reject) => {
+    if (fs.existsSync(target)) {
+      resolve('done');
     }
-    console.log('Added prettier');
+  
+    fs.copyFile(src, target, (err) => {
+      if (err) {
+        reject(err);
+      }
+      resolve('done')
+    })
+  });
+}
+
+function addFileContainer(options = {}) {
+  const { useTypeScript, isLibrary } = options;
+
+  const addPrettier = new Promise((resolve) => {
+    const src = path.resolve(__dirname, '..', 'lint/.prettierrc');
+    const target = path.resolve(process.cwd(), '.prettierrc');
+
+    resolve(addFile(src, target));
+  });
+
+  const addProjectConfig = new Promise((resolve) => {
+    const src = path.resolve(__dirname, '..', 'project.config.example.js');
+    const target = path.resolve(process.cwd(), 'project.config.js');
+
+    resolve(addFile(src, target));
+  });
+
+  const addLint = new Promise((resolve) => {
+    let filename;
+    if (isLibrary) {
+      filename = 'lint/lib/.eslintrc.json';
+    } else if (useTypeScript) {
+      filename = 'lint/react-ts/.eslintrc.json';
+    } else {
+      filename = 'lint/react/.eslintrc.json';
+    }
+
+    const src = path.resolve(__dirname, '..', filename);
+    const target = path.resolve(process.cwd(), '.eslintrc.json');
+
+    resolve(addFile(src, target));
+  });
+
+  const addTSConfig = new Promise((resolve) => {
+    let filename;
+    if (isLibrary) {
+      filename = 'typescript/lib/tsconfig.json';
+    } else {
+      filename = 'typescript/react/tsconfig.json';
+    }
+
+    const src = path.resolve(__dirname, '..', filename);
+    const target = path.resolve(process.cwd(), 'tsconfig.json');
+
+    resolve(addFile(src, target));
+  });
+
+  Promise.all([addPrettier, addProjectConfig, addLint, addTSConfig]).then((values) => {
+    console.log('Files added: ', values.toString());
+  }).catch((err) => {
+    console.log(err);
   })
 }
 
-function init() {
-  addPrettier();
-  updateLocalPackage();
+function init(options = {}) {
+  addFileContainer(options);
+  updateLocalPackage(options);
 }
 
 module.exports = init;
