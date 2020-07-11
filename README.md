@@ -73,6 +73,6 @@ npx eslint --init
 {
   "lint": "eslint 'src/**/*.[tj]s?(x)'",
   "lint-fix": "npm run lint -- --fix",
-  "format": "prettier 'src/**/*.[tj]s?(x)' && npm run lint-fix"
+  "format": "prettier 'src/**/*.[tj]s?(x)' --check --write && npm run lint-fix"
 }
 ```

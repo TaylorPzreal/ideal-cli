@@ -26,7 +26,7 @@ function updateLocalPackage() {
   }
 
   if (!scripts['lint']) {
-    packageJSON.scripts['lint'] = 'eslint \'src/**/*.[jt]s?x\''
+    packageJSON.scripts['lint'] = 'eslint \'src/**/*.[jt]s?(x)\''
   } else {
     console.log('Ignore scripts lint');
   }
@@ -38,7 +38,7 @@ function updateLocalPackage() {
   }
 
   if (!scripts['format']) {
-    packageJSON.scripts['format'] = 'prettier \'src/**/*.[tj]s?(x)\' && npm run lint-fix'
+    packageJSON.scripts['format'] = 'prettier \'src/**/*.[tj]s?(x)\' --check --write && npm run lint-fix'
   } else {
     console.log('Ignore scripts lint');
   }
