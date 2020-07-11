@@ -12,7 +12,7 @@ program
   .command('start')
   .description('Start for development web')
   .action((cmd) => {
-    console.log('start')
+    console.log('Starting webserver ... ')
     webpackInit('start');
   })
 
@@ -20,14 +20,16 @@ program
   .command('build')
   .description('Build for production web')
   .action((cmd) => {
-
+    console.log('Building project ... ')
+    webpackInit('build');
   })
 
 program
   .command('build-lib')
   .description('Build for library')
   .action((cmd) => {
-
+    console.log('Building library ... ')
+    webpackInit('build-lib');
   })
 
 program

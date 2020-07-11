@@ -3,17 +3,11 @@ const postcssNormalize = require('postcss-normalize');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const moduleFileExtensions = [
-  'js',
-  'jsx',
-  'ts',
-  'tsx',
-  'json',
-  'mjs',
-  'web.js',
-  'web.ts',
-  'web.jsx',
-  'web.tsx',
-  'web.mjs',
+  '.jsx',
+  '.js',
+  '.tsx',
+  '.ts',
+  '.json',
 ];
 
 const rootBaseProject = (...args) => path.join(process.cwd(), ...args);
@@ -101,6 +95,28 @@ const getStyleLoaders = (useSourceMap, cssOptions, preProcessor) => {
   return loaders;
 };
 
+const babelPlugins = [
+  '@babel/plugin-proposal-export-namespace-from',
+  '@babel/plugin-proposal-function-sent',
+  '@babel/plugin-proposal-json-strings',
+  '@babel/plugin-proposal-numeric-separator',
+  '@babel/plugin-proposal-throw-expressions',
+  '@babel/plugin-syntax-dynamic-import',
+  '@babel/plugin-syntax-import-meta',
+  '@babel/plugin-transform-runtime',
+  '@babel/plugin-proposal-class-properties'
+]
+
+const browserCompatibilityPreset = [
+  '@babel/preset-env',
+  {
+      debug: true,
+      useBuiltIns: 'usage',
+      corejs: 3,
+      modules: false,
+  }
+]
+
 module.exports = {
   moduleFileExtensions,
   vendors,
@@ -109,4 +125,6 @@ module.exports = {
   moduleRegex,
   constants,
   getStyleLoaders,
+  babelPlugins,
+  browserCompatibilityPreset,
 };

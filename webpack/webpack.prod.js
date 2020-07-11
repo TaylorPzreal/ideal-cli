@@ -1,66 +1,74 @@
-const { HashedModuleIdsPlugin } = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
+// const CopyPlugin = require('copy-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { merge } = require('webpack-merge');
 const safePostCssParser = require('postcss-safe-parser');
+const path = require('path');
 
 const { common } = require('./webpack.common');
 const { rootBaseProject } = require('./config');
 const getRules = require('./rules');
+const { entry, output, HtmlWebpackPluginConfig } = require(path.resolve(process.cwd(), 'project.config.js'));
+
+process.env.BABEL_ENV = 'production';
+process.env.NODE_ENV = 'production';
+
+process.on('unhandledRejection', err => {
+  console.log('------ Promise unhandled rejection ------');
+  throw err;
+})
 
 const useSourceMap = false; // should use source map
 
 module.exports = merge(common, {
   mode: 'production',
-  bail: true,
-  recordsPath: rootBaseProject('docs/build-records.json'),
   devtool: useSourceMap ? 'source-map' : false,
 
+  entry: {
+    'polyfills': ['core-js/stable', 'regenerator-runtime/runtime'],
+    ...entry,
+  },
+
   output: {
-    filename: '[name].[chunkhash:20].bundle.js',
-    chunkFilename: '[name].[chunkhash:20].chunk.js',
+    filename: '[name].[contenthash].js',
+    chunkFilename: '[id].[chunkhash].chunk.js',
     path: rootBaseProject('dist'),
-    publicPath: '/'
+    publicPath: '/',
+    ...output,
   },
 
   module: {
     rules: getRules(useSourceMap),
   },
   plugins: [
-    new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: ['dist/**/*'],
-      verbose: true,
-      dry: false
-    }),
+    new CleanWebpackPlugin(),
 
-    new CopyPlugin(
-      [
-        {
-          from: rootBaseProject('/dll'),
-          to: rootBaseProject('/dist/dll'),
-          toType: 'dir'
-        },
-        {
-          from: rootBaseProject('/src/assets'),
-          to: rootBaseProject('/dist/assets'),
-          toType: 'dir'
-        }
-      ],
-      {
-        ignore: ['*.scss', '*.css', '**/fonts/*']
-      }
-    ),
+    // new CopyPlugin(
+    //   [
+    //     {
+    //       from: rootBaseProject('/dll'),
+    //       to: rootBaseProject('/dist/dll'),
+    //       toType: 'dir'
+    //     },
+    //     {
+    //       from: rootBaseProject('/src/assets'),
+    //       to: rootBaseProject('/dist/assets'),
+    //       toType: 'dir'
+    //     }
+    //   ],
+    //   {
+    //     ignore: ['*.scss', '*.css', '**/fonts/*']
+    //   }
+    // ),
 
-    new HashedModuleIdsPlugin(),
+    // new HashedModuleIdsPlugin(),
 
     new HtmlWebpackPlugin({
       inject: true,
-      template: rootBaseProject('src/index.html'),
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -73,25 +81,27 @@ module.exports = merge(common, {
         minifyCSS: true,
         minifyURLs: true
       },
-      chunksSortMode: (chunk1, chunk2) => {
-        const orders = ['inline', 'polyfills', 'vendor', 'app'];
-        const order1 = orders.indexOf(chunk1.names[0]);
-        const order2 = orders.indexOf(chunk2.names[0]);
-        if (order1 > order2) {
-          return 1;
-        }
-        if (order1 < order2) {
-          return -1;
-        }
-        return 0;
-      }
+      // chunksSortMode: (chunk1, chunk2) => {
+      //   const orders = ['inline', 'polyfills', 'vendor', 'app'];
+      //   const order1 = orders.indexOf(chunk1.names[0]);
+      //   const order2 = orders.indexOf(chunk2.names[0]);
+      //   if (order1 > order2) {
+      //     return 1;
+      //   }
+      //   if (order1 < order2) {
+      //     return -1;
+      //   }
+      //   return 0;
+      // },
+      template: rootBaseProject('src/index.html'),
+      ...HtmlWebpackPluginConfig,
     }),
 
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // all options are optional
-      filename: 'assets/css/[name].[contenthash:8].css',
-      chunkFilename: 'assets/css/[name].[contenthash:8].chunk.css',
+      filename: 'assets/css/[name].[contenthash].css',
+      chunkFilename: 'assets/css/[id].[chunkhash].chunk.css',
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
 

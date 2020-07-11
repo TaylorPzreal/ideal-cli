@@ -1,47 +1,58 @@
-const webpack = require('webpack')
-const path = require('path')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const path = require("path");
+const { DefinePlugin, BannerPlugin } = require("webpack");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-const getRules = require('./rules')
-const { moduleFileExtensions } = require('./config')
-const project = require(require.resolve(process.cwd() + '/project.config'))
-const basePath = project.basePath || process.cwd()
-const useSourceMap = project.useSourceMap || true
+const getRules = require("./rules");
+const { moduleFileExtensions, rootBaseProject } = require("./config");
+const { entry, output, externals = [] } = require(path.resolve(process.cwd(), 'project.config.js'));
 
-const params = process.argv.splice(2)
-const customMode = project.mode || (params.find(item => (item.split('=')[0] === '--mode')) || '').split('=')[1]
+const useSourceMap = false;
+
+process.env.BABEL_ENV = "production";
+process.env.NODE_ENV = "production";
 
 module.exports = {
-    mode: ['production', 'development'].includes(customMode) ? customMode : 'production',
-    entry: {
-        app: [
-            path.resolve(basePath, project.entry || './src/index.js')
-        ]
-    },
-    output: {
-        library: 'lib',
-        libraryTarget: 'amd',
-        filename: 'index.js',
-        path: path.resolve(basePath, project.outDir || 'lib'),
-        publicPath: project.publicPath
-    },
-    devtool: 'source-map',
-    externals: project.externals || [],
-    module: {
-        rules: getRules(useSourceMap),
-    },
-    resolve: {
-        extensions: moduleFileExtensions,
-    },
-    plugins: [
-        new webpack.DefinePlugin({
-            __DEV__: false
-        }),
-        new MiniCssExtractPlugin({
-            filename: '[name].[contenthash:8].css',
-            chunkFilename: '[name].[contenthash:8].chunk.css'
-        }),
-        new CleanWebpackPlugin({ verbose: true })
-    ]
-}
+  mode: "production",
+  entry: {
+    ...entry,
+  },
+  output: {
+    library: "lib",
+    libraryTarget: "umd",
+    filename: "index.js",
+    path: rootBaseProject('dist'),
+    publicPath: '/',
+    globalObject: 'this', //To make UMD build available on both browsers and Node.js, set output.globalObject option to 'this'
+    ...output,
+  },
+  externals: [...externals],
+  module: {
+    rules: getRules(useSourceMap),
+  },
+  resolve: {
+    extensions: moduleFileExtensions,
+  },
+  plugins: [
+    new DefinePlugin({
+      __DEV__: false,
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css",
+      chunkFilename: "[id].[contenthash].chunk.css",
+    }),
+    new CleanWebpackPlugin(),
+    new BannerPlugin('©2017-2020 honeymorning.com taylorpzreal@gmail.com'),
+  ],
+  optimization: {},
+  node: {
+    module: 'empty',
+    dgram: 'empty',
+    dns: 'mock',
+    fs: 'empty',
+    http2: 'empty',
+    net: 'empty',
+    tls: 'empty',
+    child_process: 'empty',
+  }
+};

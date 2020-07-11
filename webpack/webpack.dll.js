@@ -4,13 +4,13 @@ const { vendors, rootBaseProject } = require('./config');
 
 module.exports = {
   mode: 'production',
+  entry: {
+    vendor: vendors
+  },
   output: {
     path: rootBaseProject('dll'),
     filename: '[name].[chunkhash].dll.js',
     library: '[name]_[chunkhash]'
-  },
-  entry: {
-    vendor: vendors
   },
   plugins: [
     new ProgressPlugin(),

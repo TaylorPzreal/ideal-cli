@@ -1,4 +1,5 @@
-const { moduleRegex, constants, getStyleLoaders } = require('./config');
+const { moduleRegex, constants, getStyleLoaders, browserCompatibilityPreset, babelPlugins } = require('./config');
+const path = require('path');
 
 // TODO: name config [hash] [contenthash] [file]
 // https://webpack.js.org/configuration/output/
@@ -19,12 +20,17 @@ function getRules(useSourceMap) {
         },
         {
           test: moduleRegex.main,
-          include: [],
+          include: path.resolve(process.cwd(), 'src'),
+          exclude: /node_modules/,
           loader: require.resolve('babel-loader'),
           options: {
             customize: require.resolve(
               'babel-preset-react-app/webpack-overrides'
             ),
+
+            presets: [
+              browserCompatibilityPreset,
+            ],
   
             plugins: [
               [
@@ -38,6 +44,7 @@ function getRules(useSourceMap) {
                   },
                 },
               ],
+              ...babelPlugins,
             ],
   
             cacheDirectory: true,
@@ -47,17 +54,25 @@ function getRules(useSourceMap) {
         },
         {
           test: /\.(js|mjs)$/,
-          exclude: /@babel(?:\/|\\{1,2})runtime/,
+          exclude: [
+            /@babel(?:\/|\\{1,2})runtime/,
+            /[/\\]core-js/,
+          ],
           loader: require.resolve('babel-loader'),
           options: {
             babelrc: false,
             configFile: false,
             compact: false,
+            ignore: [/[/\\]core-js/, /@babel[/\\]runtime/],
             presets: [
               [
                 require.resolve('babel-preset-react-app/dependencies'),
                 { helpers: true },
               ],
+              browserCompatibilityPreset,
+            ],
+            plugins: [
+              ...babelPlugins,
             ],
             cacheDirectory: true,
             // See #6846 for context on why cacheCompression is disabled
