@@ -20,7 +20,7 @@ function getRules(useSourceMap) {
         },
         {
           test: moduleRegex.main,
-          include: path.resolve(process.cwd(), 'src'),
+          include: path.resolve(process.cwd(), '/src'),
           exclude: /node_modules/,
           loader: require.resolve('babel-loader'),
           options: {

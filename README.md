@@ -5,6 +5,9 @@
 ## Features
 
 * 支持构建工具（Webpack）
+  * 支持本地开发
+  * 支持生产构建
+  * 支持公共库构建
 * 支持代码格式化
 * 支持pre hooks检查
 * 支持单元测试（Jest）
@@ -12,7 +15,10 @@
 ## Usages
 
 ```bash
-npm i fe-cli@latest -D
+npm i fe-cli@latest -D -E
+
+# 首先执行项目初始化配置操作
+npx fe-cli init
 ```
 
 ## browserslist example

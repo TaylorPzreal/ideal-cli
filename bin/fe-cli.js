@@ -1,12 +1,20 @@
 #!/usr/bin/env node
 const { Command } = require('commander');
 const webpackInit = require('../webpack');
-
+const init = require('../config');
 
 const program = new Command();
 
 program
   .version('0.1.0');
+
+program
+  .command('init')
+  .description('Initialize configuration')
+  .action((cmd) => {
+    console.log('Initializing ... ')
+    init();
+  })
 
 program
   .command('start')
