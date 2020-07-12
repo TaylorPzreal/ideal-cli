@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 const { Command } = require('commander');
 const webpackInit = require('../webpack');
+const packageJSON = require('../package.json');
 const init = require('../config');
 
 const program = new Command();
 
 program
-  .version('0.1.0');
+  .version(packageJSON.version);
 
 program
   .command('init')
@@ -47,14 +48,14 @@ program
   .command('lint')
   .description('Check code lint')
   .action((cmd) => {
-
+    console.log('not support')
   })
 
 program
   .command('format')
   .description('Format code')
-  .action(() => {
-
+  .action((cmd) => {
+    console.log('not support')
   })
 
 program

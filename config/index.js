@@ -1,50 +1,43 @@
 const path = require('path');
 const fs = require('fs');
-const { resolve } = require('path');
+const packagePath = path.resolve(process.cwd(), 'package.json');
 
-const packagePath = path.resolve(process.cwd() + '/package.json');
+if (!fs.existsSync(packagePath)) {
+  console.log('Does`t get package.json from your project');
+  return;
+}
+
 const packageJSON = require(packagePath);
 
-// TODO: check errors
-function updateLocalPackage(options = {}) {
+const scriptsObject = {
+  start: 'fe-cli start',
+  build: 'fe-cli build',
+  'build-lib': 'fe-cli build-lib',
+  lint: 'eslint \'src/**/*.[jt]s?(x)\'',
+  'lint-fix': 'npm run lint -- --fix',
+  format: 'prettier \'src/**/*.[tj]s?(x)\' --check --write && npm run lint-fix',
+}
+
+function addScript(script) {
+  if (!packageJSON.scripts[script]) {
+    packageJSON.scripts[script] = scriptsObject[script];
+  } else {
+    console.log(`Ignore script: ${script}`);
+  }
+}
+
+function updatePackage(options = {}) {
   const { isLibrary } = options;
-  const { scripts, browserslist } = packageJSON;
+  const { browserslist } = packageJSON;
 
-  if (!scripts.start) {
-    packageJSON.scripts.start = 'fe-cli start';
-  } else {
-    console.log('Ignore scripts start');
+  let scriptsKeys = Object.keys(scriptsObject);
+  if (!isLibrary) {
+    scriptsKeys = scriptsKeys.filter((script) => script !== 'build-lib');
   }
-
-  if (!scripts.build) {
-    packageJSON.scripts.build = 'fe-cli build';
-  } else {
-    console.log('Ignore scripts build');
-  }
-
-  if (isLibrary && !scripts['build-lib']) {
-    packageJSON.scripts['build-lib'] = 'fe-cli build-lib'
-  } else {
-    console.log('Ignore scripts build-lib');
-  }
-
-  if (!scripts['lint']) {
-    packageJSON.scripts['lint'] = 'eslint \'src/**/*.[jt]s?(x)\''
-  } else {
-    console.log('Ignore scripts lint');
-  }
-
-  if (!scripts['lint-fix']) {
-    packageJSON.scripts['lint-fix'] = 'npm run lint -- --fix'
-  } else {
-    console.log('Ignore scripts lint');
-  }
-
-  if (!scripts['format']) {
-    packageJSON.scripts['format'] = 'prettier \'src/**/*.[tj]s?(x)\' --check --write && npm run lint-fix'
-  } else {
-    console.log('Ignore scripts lint');
-  }
+  
+  scriptsKeys.forEach((script) => {
+    addScript(script);
+  });
 
   if (!browserslist) {
     packageJSON.browserslist = [];
@@ -76,7 +69,7 @@ function updateLocalPackage(options = {}) {
 function addFile(src, target) {
   return new Promise((resolve, reject) => {
     if (fs.existsSync(target)) {
-      resolve('done');
+      resolve('existed');
     }
   
     fs.copyFile(src, target, (err) => {
@@ -92,14 +85,14 @@ function addFileContainer(options = {}) {
   const { useTypeScript, isLibrary } = options;
 
   const addPrettier = new Promise((resolve) => {
-    const src = path.resolve(__dirname, '..', 'lint/.prettierrc');
+    const src = path.resolve(__dirname, '..', 'files/.prettierrc');
     const target = path.resolve(process.cwd(), '.prettierrc');
 
     resolve(addFile(src, target));
   });
 
   const addProjectConfig = new Promise((resolve) => {
-    const src = path.resolve(__dirname, '..', 'project.config.example.js');
+    const src = path.resolve(__dirname, '..', 'files/project.config.example.js');
     const target = path.resolve(process.cwd(), 'project.config.js');
 
     resolve(addFile(src, target));
@@ -108,11 +101,11 @@ function addFileContainer(options = {}) {
   const addLint = new Promise((resolve) => {
     let filename;
     if (isLibrary) {
-      filename = 'lint/lib/.eslintrc.json';
+      filename = 'files/.eslintrc.lib.json';
     } else if (useTypeScript) {
-      filename = 'lint/react-ts/.eslintrc.json';
+      filename = 'files/.eslintrc.react-ts.json';
     } else {
-      filename = 'lint/react/.eslintrc.json';
+      filename = 'files/.eslintrc.react.json';
     }
 
     const src = path.resolve(__dirname, '..', filename);
@@ -124,9 +117,9 @@ function addFileContainer(options = {}) {
   const addTSConfig = new Promise((resolve) => {
     let filename;
     if (isLibrary) {
-      filename = 'typescript/lib/tsconfig.json';
+      filename = 'files/tsconfig.lib.json';
     } else {
-      filename = 'typescript/react/tsconfig.json';
+      filename = 'files/tsconfig.react.json';
     }
 
     const src = path.resolve(__dirname, '..', filename);
@@ -135,7 +128,18 @@ function addFileContainer(options = {}) {
     resolve(addFile(src, target));
   });
 
-  Promise.all([addPrettier, addProjectConfig, addLint, addTSConfig]).then((values) => {
+  const addBabelrc = new Promise((resolve) => {
+    if (isLibrary) {
+      resolve('done');
+    } else {
+      const src = path.resolve(__dirname, '..', 'files/.babelrc');
+      const target = path.resolve(process.cwd(), '.babelrc');
+  
+      resolve(addFile(src, target));
+    }
+  });
+
+  Promise.all([addPrettier, addProjectConfig, addLint, addTSConfig, addBabelrc]).then((values) => {
     console.log('Files added: ', values.toString());
   }).catch((err) => {
     console.log(err);
@@ -144,7 +148,7 @@ function addFileContainer(options = {}) {
 
 function init(options = {}) {
   addFileContainer(options);
-  updateLocalPackage(options);
+  updatePackage(options);
 }
 
 module.exports = init;

@@ -6,7 +6,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/'
+    publicPath: '/',
   },
   externals: [],
   resolve: {},
@@ -16,6 +16,6 @@ module.exports = {
   WebpackDevServerConfig: {
     historyApiFallback: true,
     host: '127.0.0.1',
-    port: 8080
-  }
-}
+    port: 8080,
+  },
+};

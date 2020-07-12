@@ -1,9 +1,20 @@
 const webpack = require('webpack');
 const webpackDevServer = require('webpack-dev-server');
 const path = require('path');
-const webpackDevConfig = require('./webpack.dev');
-const { WebpackDevServerConfig } = require(path.resolve(process.cwd(), 'project.config.js'))
+const fs = require('fs');
 
+// 检查project.config.js文件是否存在，不存在就copy一份
+function checkProjectConfig() {
+  const projectConfigPath = path.resolve(process.cwd(), 'project.config.js');
+  if (!fs.existsSync(projectConfigPath)) {
+    const src = path.resolve(__dirname, '..', 'files/project.config.example.js');
+    fs.copyFileSync(src, projectConfigPath);
+  }
+}
+checkProjectConfig();
+
+const { WebpackDevServerConfig } = require(path.resolve(process.cwd(), 'project.config.js'));
+const webpackDevConfig = require('./webpack.dev');
 const webpackProdConfig = require('./webpack.prod');
 const webpackLibConfig = require('./webpack.lib');
 

@@ -78,6 +78,6 @@
     "regenerator-runtime": "^0.13"
   },
   "engines": {
-    "node": "^8.3.0"
+    "node": "^8.5.0"
   }
 }
