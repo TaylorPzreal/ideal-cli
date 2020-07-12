@@ -6,6 +6,9 @@
     "fe-cli": "./bin/index.js"
   },
   "scripts": {
+    "lint": "eslint {bin,config,webpack}/**/*.js",
+    "lint-fix": "npm run lint -- --fix",
+    "release": "standard-version",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

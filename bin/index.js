@@ -23,7 +23,7 @@ program
 program
   .command('start')
   .description('Start for development web')
-  .action((cmd) => {
+  .action(() => {
     console.log('Starting webserver ... ')
     webpackInit('start');
   })
@@ -31,7 +31,7 @@ program
 program
   .command('build')
   .description('Build for production web')
-  .action((cmd) => {
+  .action(() => {
     console.log('Building project ... ')
     webpackInit('build');
   })
@@ -39,23 +39,9 @@ program
 program
   .command('build-lib')
   .description('Build for library')
-  .action((cmd) => {
+  .action(() => {
     console.log('Building library ... ')
     webpackInit('build-lib');
-  })
-
-program
-  .command('lint')
-  .description('Check code lint')
-  .action((cmd) => {
-    console.log('not support')
-  })
-
-program
-  .command('format')
-  .description('Format code')
-  .action((cmd) => {
-    console.log('not support')
   })
 
 program

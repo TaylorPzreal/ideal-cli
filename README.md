@@ -10,8 +10,12 @@
   * 支持公共库构建
 * 支持代码格式化
 * 支持pre hooks检查
-* 支持单元测试（Jest）
 * 支持版本升级
+
+### Coming soon
+
+- [ ] 支持单元测试（Jest）
+- [ ] 支持DLL
 
 ## Usages
 
@@ -77,3 +81,14 @@ npx eslint --init
   "format": "prettier 'src/**/*.[tj]s?(x)' --check --write && npm run lint-fix"
 }
 ```
+
+## version
+
+> major.minor.patch
+
+```bash
+npm run release -- --first-release
+npm run release -- --release-as (major|minor|patch)
+```
+
+[More Info](https://www.npmjs.com/package/standard-version)

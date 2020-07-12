@@ -16,11 +16,12 @@ const scriptsObject = {
   lint: 'eslint \'src/**/*.[jt]s?(x)\'',
   'lint-fix': 'npm run lint -- --fix',
   format: 'prettier \'src/**/*.[tj]s?(x)\' --check --write && npm run lint-fix',
+  release: 'standard-version',
 }
 
-function addScript(script) {
-  if (!packageJSON.scripts[script]) {
-    packageJSON.scripts[script] = scriptsObject[script];
+function addScript(result, script) {
+  if (!result.scripts[script]) {
+    result.scripts[script] = scriptsObject[script];
   } else {
     console.log(`Ignore script: ${script}`);
   }
@@ -28,20 +29,23 @@ function addScript(script) {
 
 function updatePackage(options = {}) {
   const { isLibrary } = options;
-  const { browserslist } = packageJSON;
+  const { browserslist, husky, 'lint-staged': lintStaged } = packageJSON;
+  let result = Object.assign({}, packageJSON);
 
+  // update scripts
   let scriptsKeys = Object.keys(scriptsObject);
   if (!isLibrary) {
-    scriptsKeys = scriptsKeys.filter((script) => script !== 'build-lib');
+    scriptsKeys = scriptsKeys.filter((script) => !['build-lib'].includes(script));
   }
   
   scriptsKeys.forEach((script) => {
-    addScript(script);
+    addScript(result, script);
   });
 
+  // update browserslist
   if (!browserslist) {
-    packageJSON.browserslist = [];
-    packageJSON.browserslist.push(
+    result.browserslist = [];
+    result.browserslist.push(
       "> 1%",
       "not dead",
       "not op_mini all",
@@ -56,7 +60,25 @@ function updatePackage(options = {}) {
     console.log('Ignore browserslist configuration');
   }
 
-  fs.writeFile(packagePath, JSON.stringify(packageJSON, null, 2), { encoding: 'utf8' }, (err) => {
+  // add hooks
+  const hooks = {
+    "husky": {
+      "hooks": {
+        "pre-commit": "lint-staged"
+      }
+    },
+    "lint-staged": {
+      "src/**/*.[jt]s?(x)": [
+        "npm run format"
+      ],
+    }
+  }
+
+  if (!husky && !lintStaged) {
+    result = Object.assign({}, result, {...hooks});
+  }
+
+  fs.writeFile(packagePath, JSON.stringify(result, null, 2), { encoding: 'utf8' }, (err) => {
     if (err) {
       console.log(err);
       return;
