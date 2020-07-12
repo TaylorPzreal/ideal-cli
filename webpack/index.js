@@ -17,6 +17,7 @@ const { WebpackDevServerConfig } = require(path.resolve(process.cwd(), 'project.
 const webpackDevConfig = require('./webpack.dev');
 const webpackProdConfig = require('./webpack.prod');
 const webpackLibConfig = require('./webpack.lib');
+const webpackDllConfig = require('./webpack.dll');
 
 function init(command) {
   switch(command) {
@@ -37,16 +38,17 @@ function init(command) {
       });
       break;
     }
-    case 'build':
+    case 'build': {
       webpack(webpackProdConfig).run((err) => {
         if (err) {
           console.log(err);
           return;
         }
-        console.log('****** Webpack build successfully! ******');
+        console.log('****** Webpack build project successfully! ******');
       });
       break;
-    case 'build-lib':
+    }
+    case 'build-lib': {
       webpack(webpackLibConfig).run((err) => {
         if (err) {
           console.log(err);
@@ -55,6 +57,17 @@ function init(command) {
         console.log('****** Webpack build library successfully! ******');
       })
       break;
+    }
+    case 'dll': {
+      webpack(webpackDllConfig).run((err) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log('****** Webpack build Dll successfully! ******');
+      })
+      break;
+    }
     default:
       console.log('Command not defined: ', command);
   }

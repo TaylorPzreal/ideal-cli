@@ -1,30 +1,18 @@
 const { ProgressPlugin, DllReferencePlugin, BannerPlugin } = require('webpack');
 const InterpolateWebpackPlugin = require('interpolate-webpack-plugin');
+const path = require('path');
+const { rootBaseProject, moduleFileExtensions } = require('./config');
+const { dllVendors } = require(path.resolve(process.cwd(), 'project.config.js'));
 
-const { moduleFileExtensions, rootBaseProject } = require('./config');
-
-exports.common = {
+const common = {
   resolve: {
     // TODO: search this
     // modules: ['node_modules'],
     extensions: moduleFileExtensions
   },
-  module: {
-  },
+  module: {},
   plugins: [
     new ProgressPlugin(),
-
-    // new InterpolateWebpackPlugin([{
-    //   key: 'INJECT_DLL',
-    //   value: rootBaseProject('dll/*.js'),
-    //   type: 'PATH'
-    // }]),
-
-    // new DllReferencePlugin({
-    //   context: __dirname,
-    //   manifest: rootBaseProject('dll/vendor-manifest.json'),
-    // }),
-
     new BannerPlugin('©2017-2020 honeymorning.com taylorpzreal@gmail.com')
   ],
   optimization: {
@@ -51,3 +39,22 @@ exports.common = {
     child_process: 'empty',
   }
 };
+
+// For Dll
+if (dllVendors.length > 0) {
+  common.plugins.push(
+    new InterpolateWebpackPlugin([{
+      key: 'INJECT_DLL',
+      value: rootBaseProject('dist/dll*.js'),
+      type: 'PATH'
+    }]),
+    new DllReferencePlugin({
+      context: __dirname,
+      manifest: rootBaseProject('dist/dll-manifest.json'),
+    }),
+  )
+}
+
+module.exports = {
+  common
+}

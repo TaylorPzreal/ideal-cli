@@ -12,6 +12,8 @@ const packageJSON = require(packagePath);
 const scriptsObject = {
   start: 'fe-cli start',
   build: 'fe-cli build',
+  prestart: 'rimraf dist && fe-cli dll',
+  prebuild: 'rimraf dist && fe-cli dll',
   'build-lib': 'fe-cli build-lib',
   lint: 'eslint \'src/**/*.[jt]s?(x)\'',
   'lint-fix': 'npm run lint -- --fix',
@@ -34,8 +36,10 @@ function updatePackage(options = {}) {
 
   // update scripts
   let scriptsKeys = Object.keys(scriptsObject);
-  if (!isLibrary) {
-    scriptsKeys = scriptsKeys.filter((script) => !['build-lib'].includes(script));
+  if (isLibrary) {
+    scriptsKeys = scriptsKeys.filter((script) => ['build-lib', 'lint', 'lint-fix', 'format', 'release'].includes(script));
+  } else {
+    scriptsKeys = scriptsKeys.filter((script) => ['start', 'build', 'prestart', 'prebuild', 'lint', 'lint-fix', 'format', 'release'].includes(script));
   }
   
   scriptsKeys.forEach((script) => {
@@ -140,8 +144,10 @@ function addFileContainer(options = {}) {
     let filename;
     if (isLibrary) {
       filename = 'files/tsconfig.lib.json';
-    } else {
+    } else if (useTypeScript) {
       filename = 'files/tsconfig.react.json';
+    } else {
+      resolve('done');
     }
 
     const src = path.resolve(__dirname, '..', filename);

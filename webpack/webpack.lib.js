@@ -1,7 +1,6 @@
 const path = require("path");
 const { DefinePlugin, BannerPlugin } = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const getRules = require("./rules");
 const { moduleFileExtensions, rootBaseProject } = require("./config");
@@ -41,7 +40,6 @@ module.exports = {
       filename: "[name].[contenthash].css",
       chunkFilename: "[id].[contenthash].chunk.css",
     }),
-    new CleanWebpackPlugin(),
     new BannerPlugin('©2017-2020 honeymorning.com taylorpzreal@gmail.com'),
   ],
   optimization: {},

@@ -1,9 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-// const CopyPlugin = require('copy-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { merge } = require('webpack-merge');
 const safePostCssParser = require('postcss-safe-parser');
@@ -45,28 +43,6 @@ module.exports = merge(common, {
     rules: getRules(useSourceMap),
   },
   plugins: [
-    new CleanWebpackPlugin(),
-
-    // new CopyPlugin(
-    //   [
-    //     {
-    //       from: rootBaseProject('/dll'),
-    //       to: rootBaseProject('/dist/dll'),
-    //       toType: 'dir'
-    //     },
-    //     {
-    //       from: rootBaseProject('/src/assets'),
-    //       to: rootBaseProject('/dist/assets'),
-    //       toType: 'dir'
-    //     }
-    //   ],
-    //   {
-    //     ignore: ['*.scss', '*.css', '**/fonts/*']
-    //   }
-    // ),
-
-    // new HashedModuleIdsPlugin(),
-
     new HtmlWebpackPlugin({
       inject: true,
       minify: {

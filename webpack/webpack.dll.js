@@ -1,22 +1,27 @@
 const { DllPlugin, ProgressPlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
-const { vendors, rootBaseProject } = require('./config');
+const path = require('path');
+const { rootBaseProject, moduleFileExtensions } = require('./config');
+const { dllVendors } = require(path.resolve(process.cwd(), 'project.config.js'));
 
 module.exports = {
   mode: 'production',
   entry: {
-    vendor: vendors
+    dll: dllVendors
   },
   output: {
-    path: rootBaseProject('dll'),
-    filename: '[name].[chunkhash].dll.js',
+    path: rootBaseProject('dist'),
+    filename: '[name].[contenthash].js',
     library: '[name]_[chunkhash]'
+  },
+  resolve: {
+    extensions: moduleFileExtensions,
   },
   plugins: [
     new ProgressPlugin(),
 
     new DllPlugin({
-      path: rootBaseProject('dll/vendor-manifest.json'),
+      path: rootBaseProject('dist/[name]-manifest.json'),
       name: '[name]_[chunkhash]',
       context: __dirname
     }),
@@ -25,7 +30,26 @@ module.exports = {
     minimize: true,
     minimizer: [
       new TerserPlugin({
-        test: /\.js(\?.*)?$/i,
+        terserOptions: {
+          parse: {
+            ecma: 8,
+          },
+          compress: {
+            ecma: 5,
+            warnings: false,
+            comparisons: false,
+            inline: 2,
+          },
+          mangle: {
+            safari10: true,
+          },
+          output: {
+            ecma: 5,
+            comments: false,
+            ascii_only: true,
+          },
+        },
+        sourceMap: false,
       }),
     ],
   },

@@ -45,5 +45,13 @@ program
   })
 
 program
+  .command('dll')
+  .description('Build for dll')
+  .action(() => {
+    console.log('Building dll ... ')
+    webpackInit('dll');
+  })
+
+program
   .parse(process.argv);
 
