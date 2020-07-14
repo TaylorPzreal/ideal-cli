@@ -56,5 +56,7 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty',
-  }
+  },
+  profile: true,
+  recordsPath: rootBaseProject('analysis', 'records.json'),
 };

@@ -147,5 +147,6 @@ npm run analyze
 ```
 
 Analysis Website
-<http://webpack.github.io/analyse/>
-<https://webpack.jakoblind.no/optimize/>
+
+* <http://webpack.github.io/analyse/>
+* <https://webpack.jakoblind.no/optimize/>

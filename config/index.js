@@ -36,14 +36,16 @@ function updatePackage(options = {}) {
   let result = Object.assign({}, packageJSON);
 
   // update scripts
-  let scriptsKeys = Object.keys(scriptsObject);
+  const scriptsKeys = Object.keys(scriptsObject);
+  let applyKeys = [];
+  const commonKeys = ['lint', 'lint-fix', 'format', 'release', 'analyze'];
   if (isLibrary) {
-    scriptsKeys = scriptsKeys.filter((script) => ['build-lib', 'lint', 'lint-fix', 'format', 'release'].includes(script));
+    applyKeys = scriptsKeys.filter((script) => ['build-lib'].includes(script));
   } else {
-    scriptsKeys = scriptsKeys.filter((script) => ['start', 'build', 'prestart', 'prebuild', 'lint', 'lint-fix', 'format', 'release'].includes(script));
+    applyKeys = scriptsKeys.filter((script) => ['start', 'build', 'prestart', 'prebuild'].includes(script));
   }
   
-  scriptsKeys.forEach((script) => {
+  [...applyKeys, ...commonKeys].forEach((script) => {
     addScript(result, script);
   });
 
