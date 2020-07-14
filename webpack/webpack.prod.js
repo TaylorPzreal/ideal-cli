@@ -3,6 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { merge } = require('webpack-merge');
 const safePostCssParser = require('postcss-safe-parser');
 const path = require('path');
@@ -10,7 +11,7 @@ const path = require('path');
 const { common } = require('./webpack.common');
 const { rootBaseProject } = require('./config');
 const getRules = require('./rules');
-const { entry, output, HtmlWebpackPluginConfig } = require(path.resolve(process.cwd(), 'project.config.js'));
+const { entry, output, HtmlWebpackPluginConfig, useSourceMap } = require(path.resolve(process.cwd(), 'project.config.js'));
 
 process.env.BABEL_ENV = 'production';
 process.env.NODE_ENV = 'production';
@@ -20,25 +21,19 @@ process.on('unhandledRejection', err => {
   throw err;
 })
 
-const useSourceMap = false; // should use source map
-
 module.exports = merge(common, {
   mode: 'production',
+  // 在第一个错误出现时抛出失败结果，而不是容忍它，迫使 webpack 退出其打包过程。
+  bail: true,
   devtool: useSourceMap ? 'source-map' : false,
-
   entry: {
-    'polyfills': ['core-js/stable', 'regenerator-runtime/runtime'],
     ...entry,
   },
-
   output: {
     filename: '[name].[contenthash].js',
-    chunkFilename: '[id].[chunkhash].chunk.js',
-    path: rootBaseProject('dist'),
-    publicPath: '/',
+    chunkFilename: '[name].[chunkhash].chunk.js',
     ...output,
   },
-
   module: {
     rules: getRules(useSourceMap),
   },
@@ -69,7 +64,6 @@ module.exports = merge(common, {
       //   }
       //   return 0;
       // },
-      template: rootBaseProject('src/index.html'),
       ...HtmlWebpackPluginConfig,
     }),
 
@@ -77,16 +71,24 @@ module.exports = merge(common, {
       // Options similar to the same options in webpackOptions.output
       // all options are optional
       filename: 'assets/css/[name].[contenthash].css',
-      chunkFilename: 'assets/css/[id].[chunkhash].chunk.css',
+      chunkFilename: 'assets/css/[name].[chunkhash].chunk.css',
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
 
     new ManifestPlugin({
       fileName: 'app-manifest.json'
-    })
+    }),
+
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'json',
+      openAnalyzer: false,
+      generateStatsFile: true,
+      statsFilename: rootBaseProject('analysis', 'stats.json'),
+      reportFilename: rootBaseProject('analysis', 'reports.json'),
+    }),
   ],
   optimization: {
-    minimize: true,
+    // 允许你通过提供一个或多个定制过的 TerserPlugin 实例， 覆盖默认压缩工具(minimizer)。
     minimizer: [
       new TerserPlugin({
         terserOptions: {
@@ -147,6 +149,7 @@ module.exports = merge(common, {
         },
       }),
     ],
+    // 对于动态导入模块，默认使用 webpack v4+ 提供的全新的通用分块策略(common chunk strategy)
     splitChunks: {
       chunks: 'all',
       name: false,
@@ -154,5 +157,12 @@ module.exports = merge(common, {
     runtimeChunk: {
       name: entrypoint => `runtime-${entrypoint.name}`,
     },
+    sideEffects: true,
   },
+  performance: {
+    hints: 'warning',
+  },
+  parallelism: 100,
+  profile: true,
+  recordsPath: rootBaseProject('analysis', 'records.json'),
 });

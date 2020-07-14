@@ -12,6 +12,8 @@
 * 支持pre hooks检查
 * 支持版本升级
 * 支持DLL
+* 支持构建分析
+* 支持浏览器兼容
 
 ### Coming soon
 
@@ -128,3 +130,22 @@ Config your __project.config.js__.
   dllVendors: ['react', 'react-dom']
 }
 ```
+
+## 四、Optimization
+
+* [代码分离](https://webpack.docschina.org/guides/code-splitting/)
+* [懒加载](https://webpack.docschina.org/guides/lazy-loading/)
+* [摇树优化](https://webpack.docschina.org/guides/tree-shaking/)
+* [Shimming 预置依赖](https://webpack.docschina.org/guides/shimming/)
+* 缓存
+* 并发
+
+## 五、Bundle analysis
+
+```bash
+npm run analyze
+```
+
+Analysis Website
+<http://webpack.github.io/analyse/>
+<https://webpack.jakoblind.no/optimize/>

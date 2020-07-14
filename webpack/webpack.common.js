@@ -2,13 +2,15 @@ const { ProgressPlugin, DllReferencePlugin, BannerPlugin } = require('webpack');
 const InterpolateWebpackPlugin = require('interpolate-webpack-plugin');
 const path = require('path');
 const { rootBaseProject, moduleFileExtensions } = require('./config');
-const { dllVendors } = require(path.resolve(process.cwd(), 'project.config.js'));
+const { dllVendors, resolve, output } = require(path.resolve(process.cwd(), 'project.config.js'));
 
 const common = {
   resolve: {
-    // TODO: search this
-    // modules: ['node_modules'],
-    extensions: moduleFileExtensions
+    // 告诉 webpack 解析模块时应该搜索的目录
+    modules: ['node_modules'],
+    // 尝试按顺序解析这些后缀名。
+    extensions: moduleFileExtensions,
+    ...resolve,
   },
   module: {},
   plugins: [
@@ -45,12 +47,12 @@ if (dllVendors.length > 0) {
   common.plugins.push(
     new InterpolateWebpackPlugin([{
       key: 'INJECT_DLL',
-      value: rootBaseProject('dist/dll*.js'),
+      value: rootBaseProject(`${output.path}/dll*.js`),
       type: 'PATH'
     }]),
     new DllReferencePlugin({
       context: __dirname,
-      manifest: rootBaseProject('dist/dll-manifest.json'),
+      manifest: rootBaseProject(`${output.path}/dll-manifest.json`),
     }),
   )
 }

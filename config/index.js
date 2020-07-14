@@ -19,6 +19,7 @@ const scriptsObject = {
   'lint-fix': 'npm run lint -- --fix',
   format: 'prettier \'src/**/*.[tj]s?(x)\' --check --write && npm run lint-fix',
   release: 'standard-version',
+  analyze: 'webpack-bundle-analyzer analysis/stats.json'
 }
 
 function addScript(result, script) {

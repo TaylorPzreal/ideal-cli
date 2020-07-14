@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "前端工具集",
   "bin": {
-    "fe-cli": "./bin/index.js"
+    "fe-cli": "bin/index.js"
   },
   "scripts": {
     "lint": "eslint {bin,config,webpack}/**/*.js",
@@ -11,7 +11,16 @@
     "release": "standard-version",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "webpack cli",
+    "development",
+    "production",
+    "library",
+    "Dll",
+    "hooks",
+    "lint",
+    "version"
+  ],
   "author": "TaylorPzreal <taylorpzreal@gmail.com>",
   "license": "MIT",
   "dependencies": {
@@ -71,6 +80,7 @@
     "typescript": "3.9.6",
     "url-loader": "4.1.0",
     "webpack": "4.43.0",
+    "webpack-bundle-analyzer": "3.8.0",
     "webpack-dev-server": "3.11.0",
     "webpack-manifest-plugin": "2.2.0",
     "webpack-merge": "5.0.9"
@@ -81,5 +91,10 @@
   },
   "engines": {
     "node": "^8.5.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git@taylorpzreal.github.com:TaylorPzreal/fe-cli.git"
   }
 }

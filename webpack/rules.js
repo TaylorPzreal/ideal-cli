@@ -1,9 +1,6 @@
 const { moduleRegex, constants, getStyleLoaders, browserCompatibilityPreset, babelPlugins } = require('./config');
 const path = require('path');
 
-// TODO: name config [hash] [contenthash] [file]
-// https://webpack.js.org/configuration/output/
-
 function getRules(useSourceMap) {
   const isProduction = process.env.NODE_ENV === 'production';
 
@@ -15,7 +12,7 @@ function getRules(useSourceMap) {
           loader: require.resolve('url-loader'),
           options: {
             limit: constants.IMAGE_INLINE_SIZE_LIMIT,
-            name: 'assets/images/[name].[hash:8].[ext]'
+            name: 'assets/images/[name].[contenthash].[ext]'
           }
         },
         {
@@ -108,7 +105,7 @@ function getRules(useSourceMap) {
           loader: require.resolve('file-loader'),
           exclude: [moduleRegex.main, /\.html$/, /\.json$/],
           options: {
-            name: 'assets/[name].[hash:8].[ext]',
+            name: 'assets/[name].[contenthash].[ext]',
           },
         },
       ]

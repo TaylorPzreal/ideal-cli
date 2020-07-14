@@ -10,11 +10,7 @@ const moduleFileExtensions = [
   '.json',
 ];
 
-const rootBaseProject = (...args) => path.join(process.cwd(), ...args);
-const cliWorkspace = path.resolve(__dirname, '..');
-
-// 用于dll的第三方库列表
-const vendors = [];
+const rootBaseProject = (...args) => path.resolve(process.cwd(), ...args);
 
 // module rules test regex
 const moduleRegex = {
@@ -119,8 +115,6 @@ const browserCompatibilityPreset = [
 
 module.exports = {
   moduleFileExtensions,
-  vendors,
-  cliWorkspace,
   rootBaseProject,
   moduleRegex,
   constants,
