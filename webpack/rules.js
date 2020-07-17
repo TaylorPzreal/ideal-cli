@@ -102,6 +102,15 @@ function getRules(useSourceMap) {
           )
         },
         {
+          test: moduleRegex.less,
+          use: getStyleLoaders(useSourceMap, {
+            importLoaders: 3,
+            sourceMap: useSourceMap,
+          },
+          'less-loader'
+          ),
+        },
+        {
           loader: require.resolve('file-loader'),
           exclude: [moduleRegex.main, /\.html$/, /\.json$/],
           options: {
