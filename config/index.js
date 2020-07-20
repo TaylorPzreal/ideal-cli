@@ -148,7 +148,7 @@ function addFileContainer(options = {}) {
     if (isLibrary) {
       filename = 'files/tsconfig.lib.json';
     } else if (useTypeScript) {
-      filename = 'files/tsconfig.react.json';
+      filename = 'files/tsconfig.project.json';
     } else {
       resolve('done');
     }

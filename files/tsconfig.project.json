@@ -2,8 +2,8 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     /* 基本选项 */
-    "target": "ES6", // 目标版本
-    "module": "ESNext", // 使用的模块
+    "target": "ES5", // 目标版本
+    "module": "CommonJS", // 使用的模块
     // 包含在编译中的库文件
     "lib": [
       "DOM",
@@ -12,11 +12,8 @@
       "ESNext"
     ],
     // "jsx": "react", // 指定JSX代码的生成
-    "declaration": true, // 生成相应的 .d.ts 文件
-    "sourceMap": true, // 生成相应的 .map 文件
-    // "outFile": "", // 将输出文件合并为一个文件
-    // "outDir": "", // 指定输出目录
-    // "noEmit": true, // 不生成输出文件
+    "declaration": false, // 生成相应的 .d.ts 文件
+    "sourceMap": false, // 生成相应的 .map 文件
 
     /* 模块解析选项 */
     "baseUrl": "./", // 用于解析非相对模块名称的基目录
@@ -29,8 +26,6 @@
     /* Souce Map 选项 */
     "sourceRoot": "./", // 指定调试器应该找到TypeScript文件而不是源文件的位置
     "mapRoot": "./", // 指定调试器应该找到映射文件，而不是生成文件的位置
-    "inlineSourceMap": true, // 生成单个sourcemaps文件，而不是将sourcemaps生成不同的文件
-    "inlineSources": true, // 将代码与sourcemaps生成到一个文件中
   },
   "compileOnSave": false,
   "include": [
