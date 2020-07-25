@@ -1,6 +1,6 @@
 {
   "name": "ideal-cli",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.1",
   "description": "Frontend cli, includes pack, dll, lint, hooks and so on",
   "bin": {
     "ideal-cli": "bin/index.js"
