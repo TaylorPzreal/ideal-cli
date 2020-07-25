@@ -1,9 +1,9 @@
 {
-  "name": "fe-cli",
+  "name": "ideal-cli",
   "version": "1.0.0",
   "description": "Frontend cli, includes pack, dll, lint, hooks and so on",
   "bin": {
-    "fe-cli": "bin/index.js"
+    "ideal-cli": "bin/index.js"
   },
   "scripts": {
     "lint": "eslint {bin,config,webpack}/**/*.js",
@@ -98,6 +98,6 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git@taylorpzreal.github.com:TaylorPzreal/fe-cli.git"
+    "url": "git@taylorpzreal.github.com:TaylorPzreal/ideal-cli.git"
   }
 }

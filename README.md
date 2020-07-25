@@ -1,4 +1,4 @@
-# fe-cli
+# ideal-cli
 
 前端工具集
 
@@ -22,10 +22,10 @@
 ## 二、Usages
 
 ```bash
-npm i fe-cli@latest -D -E
+npm i ideal-cli@latest -D -E
 
 # 首先执行项目初始化配置操作
-npx fe-cli init
+npx ideal-cli init
 ```
 
 ## 三、Configurations
@@ -35,9 +35,9 @@ npx fe-cli init
 ```json
 {
   "scripts": {
-    "start": "fe-cli start",
-    "build": "fe-cli build",
-    "build-lib": "fe-cli build-lib"
+    "start": "ideal-cli start",
+    "build": "ideal-cli build",
+    "build-lib": "ideal-cli build-lib"
   }
 }
 ```
@@ -106,8 +106,8 @@ Config __package.json__
 ```json
 {
   "scripts": {
-    "prestart": "rimraf dist && fe-cli dll",
-    "prebuild": "rimraf dist && fe-cli dll"
+    "prestart": "rimraf dist && ideal-cli dll",
+    "prebuild": "rimraf dist && ideal-cli dll"
   }
 }
 ```

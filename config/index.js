@@ -10,11 +10,11 @@ if (!fs.existsSync(packagePath)) {
 const packageJSON = require(packagePath);
 
 const scriptsObject = {
-  start: 'fe-cli start',
-  build: 'fe-cli build',
-  prestart: 'rimraf dist && fe-cli dll',
-  prebuild: 'rimraf dist && fe-cli dll',
-  'build-lib': 'fe-cli build-lib',
+  start: 'ideal-cli start',
+  build: 'ideal-cli build',
+  prestart: 'rimraf dist && ideal-cli dll',
+  prebuild: 'rimraf dist && ideal-cli dll',
+  'build-lib': 'ideal-cli build-lib',
   lint: 'eslint \'src/**/*.[jt]s?(x)\'',
   'lint-fix': 'npm run lint -- --fix',
   format: 'prettier \'src/**/*.[tj]s?(x)\' --check --write && npm run lint-fix',
