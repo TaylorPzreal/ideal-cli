@@ -1,7 +1,7 @@
 {
   "name": "fe-cli",
   "version": "1.0.0",
-  "description": "前端工具集",
+  "description": "Frontend cli, includes pack, dll, lint, hooks and so on",
   "bin": {
     "fe-cli": "bin/index.js"
   },
@@ -37,6 +37,7 @@
     "@commitlint/cli": "9.0.1",
     "@commitlint/config-conventional": "9.0.1",
     "@commitlint/prompt": "9.0.1",
+    "@svgr/webpack": "5.4.0",
     "@typescript-eslint/eslint-plugin": "3.6.0",
     "@typescript-eslint/parser": "3.6.0",
     "babel-eslint": "10.1.0",

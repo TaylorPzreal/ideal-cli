@@ -156,7 +156,10 @@ function addFileContainer(options = {}) {
     const src = path.resolve(__dirname, '..', filename);
     const target = path.resolve(process.cwd(), 'tsconfig.json');
 
-    resolve(addFile(src, target));
+    const srcBaseConfig = path.resolve(__dirname, '..', 'files/tsconfig.base.json');
+    const targetBaseConfig = path.resolve(process.cwd(), 'tsconfig.base.json');
+
+    resolve(Promise.all([addFile(src, target), addFile(srcBaseConfig, targetBaseConfig)]));
   });
 
   const addBabelrc = new Promise((resolve) => {
