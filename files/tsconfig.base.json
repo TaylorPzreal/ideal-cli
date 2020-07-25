@@ -38,10 +38,10 @@
     "allowSyntheticDefaultImports": false, // 允许从没有设置默认导出的模块中默认导入
 
     /* Souce Map 选项 */
-    "sourceRoot": "./", // 指定调试器应该找到TypeScript文件而不是源文件的位置
-    "mapRoot": "./", // 指定调试器应该找到映射文件，而不是生成文件的位置
-    "inlineSourceMap": false, // 生成单个sourcemaps文件，而不是将sourcemaps生成不同的文件
-    "inlineSources": false, // 将代码与sourcemaps生成到一个文件中
+    // "sourceRoot": "./", // 指定调试器应该找到TypeScript文件而不是源文件的位置
+    // "mapRoot": "./", // 指定调试器应该找到映射文件，而不是生成文件的位置
+    // "inlineSourceMap": false, // 生成单个sourcemaps文件，而不是将sourcemaps生成不同的文件
+    // "inlineSources": false, // 将代码与sourcemaps生成到一个文件中
 
     /* 其他选项 */
     "experimentalDecorators": true, // 启用装饰器

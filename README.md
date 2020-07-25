@@ -25,7 +25,7 @@
 npm i ideal-cli@latest -D -E
 
 # 首先执行项目初始化配置操作
-npx ideal-cli init
+npx ideal-cli init -h
 ```
 
 ## 三、Configurations
