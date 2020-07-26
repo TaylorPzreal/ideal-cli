@@ -22,7 +22,7 @@ module.exports = {
     globalObject: 'this', //To make UMD build available on both browsers and Node.js, set output.globalObject option to 'this'
     ...output,
   },
-  externals: [...externals],
+  externals,
   module: {
     rules: getRules(useSourceMap),
   },

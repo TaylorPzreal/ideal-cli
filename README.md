@@ -13,7 +13,7 @@ Frontend cli
 * standard version
 * dll
 * build analysis
-* browser campatibility
+* browser compatibility
 
 ### Coming soon
 

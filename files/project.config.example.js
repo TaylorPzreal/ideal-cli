@@ -8,7 +8,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
   },
-  externals: [],
+  externals: {},
   resolve: {},
   HtmlWebpackPluginConfig: {
     template: path.resolve(__dirname, 'src/index.html'),

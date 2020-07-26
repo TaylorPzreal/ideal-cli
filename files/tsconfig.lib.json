@@ -15,22 +15,24 @@
     "declaration": true, // 生成相应的 .d.ts 文件
     "sourceMap": true, // 生成相应的 .map 文件
     // "outFile": "", // 将输出文件合并为一个文件
-    // "outDir": "", // 指定输出目录
+    "outDir": "dist/types", // 指定输出目录
     // "noEmit": true, // 不生成输出文件
 
     /* 模块解析选项 */
     "baseUrl": "./", // 用于解析非相对模块名称的基目录
     "paths": {}, // 模块名到基于baseUrl的路径映射的列表
-    "rootDir": "", // 
-    "rootDirs": [], // 根文件夹列表，其组合内容表示项目运行时的结构内容
-    "typeRoots": [], // 包含类型声明的文件列表
+    "rootDir": "src", // 单个项目根文件夹
+    "rootDirs": [], // 根文件夹列表，其组合内容表示项目运行时的结构内容（多个独立项目）
+    "typeRoots": [
+      "node_modules/@types"
+    ], // 包含类型声明的文件列表
     "types": [], // 需要包含的类型声明文件名列表
 
     /* Souce Map 选项 */
-    "sourceRoot": "./", // 指定调试器应该找到TypeScript文件而不是源文件的位置
-    "mapRoot": "./", // 指定调试器应该找到映射文件，而不是生成文件的位置
-    "inlineSourceMap": true, // 生成单个sourcemaps文件，而不是将sourcemaps生成不同的文件
-    "inlineSources": true, // 将代码与sourcemaps生成到一个文件中
+    // "sourceRoot": "./", // 指定调试器应该找到TypeScript文件而不是源文件的位置
+    // "mapRoot": "./", // 指定调试器应该找到映射文件，而不是生成文件的位置
+    // "inlineSourceMap": true, // 生成单个sourcemaps文件，而不是将sourcemaps生成不同的文件
+    // "inlineSources": true, // 将代码与sourcemaps生成到一个文件中
   },
   "compileOnSave": false,
   "include": [

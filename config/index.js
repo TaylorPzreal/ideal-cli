@@ -14,7 +14,8 @@ const scriptsObject = {
   build: 'ideal-cli build',
   prestart: 'rimraf dist && ideal-cli dll',
   prebuild: 'rimraf dist && ideal-cli dll',
-  'build-lib': 'ideal-cli build-lib',
+  'build-lib': 'tsc && ideal-cli build-lib',
+  prepublishOnly: 'npm run build-lib',
   lint: 'eslint \'src/**/*.[jt]s?(x)\'',
   'lint-fix': 'npm run lint -- --fix',
   format: 'prettier \'src/**/*.[tj]s?(x)\' --check --write && npm run lint-fix',
@@ -40,7 +41,7 @@ function updatePackage(options = {}) {
   let applyKeys = [];
   const commonKeys = ['lint', 'lint-fix', 'format', 'release', 'analyze'];
   if (isLibrary) {
-    applyKeys = scriptsKeys.filter((script) => ['build-lib'].includes(script));
+    applyKeys = scriptsKeys.filter((script) => ['build-lib', 'prepublishOnly'].includes(script));
   } else {
     applyKeys = scriptsKeys.filter((script) => ['start', 'build', 'prestart', 'prebuild'].includes(script));
   }
