@@ -1,30 +1,30 @@
 # ideal-cli
 
-前端工具集
+Frontend cli
 
 ## 一、Features
 
-* 支持构建工具（Webpack）
-  * 支持本地开发
-  * 支持生产构建
-  * 支持公共库构建
-* 支持代码格式化
-* 支持pre hooks检查
-* 支持版本升级
-* 支持DLL
-* 支持构建分析
-* 支持浏览器兼容
+* Support build（Webpack）
+  * development
+  * production
+  * library
+* code format
+* pre hooks check
+* standard version
+* dll
+* build analysis
+* browser campatibility
 
 ### Coming soon
 
-- [ ] 支持单元测试（Jest）
+- [ ] Unit test（Jest）
 
 ## 二、Usages
 
 ```bash
 npm i ideal-cli@latest -D -E
 
-# 首先执行项目初始化配置操作
+# First init configuration
 npx ideal-cli init -h
 ```
 
@@ -133,12 +133,12 @@ Config your __project.config.js__.
 
 ## 四、Optimization
 
-* [代码分离](https://webpack.docschina.org/guides/code-splitting/)
-* [懒加载](https://webpack.docschina.org/guides/lazy-loading/)
-* [摇树优化](https://webpack.docschina.org/guides/tree-shaking/)
-* [Shimming 预置依赖](https://webpack.docschina.org/guides/shimming/)
-* 缓存
-* 并发
+* [code splitting](https://webpack.docschina.org/guides/code-splitting/)
+* [lazy loading](https://webpack.docschina.org/guides/lazy-loading/)
+* [tree shaking](https://webpack.docschina.org/guides/tree-shaking/)
+* [Shimming](https://webpack.docschina.org/guides/shimming/)
+* Cache
+* Concurrency
 
 ## 五、Bundle analysis
 
