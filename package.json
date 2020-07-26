@@ -99,5 +99,9 @@
   "repository": {
     "type": "git",
     "url": "git@taylorpzreal.github.com:TaylorPzreal/ideal-cli.git"
+  },
+  "homepage": "https://github.com/TaylorPzreal/ideal-cli#readme",
+  "bugs": {
+    "url": "https://github.com/TaylorPzreal/ideal-cli/issues"
   }
 }
