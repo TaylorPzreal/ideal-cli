@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.5](https://taylorpzreal.github.com/TaylorPzreal/ideal-cli/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2020-08-04)
+
+
+### Features
+
+* add commit lint ([048634e](https://taylorpzreal.github.com/TaylorPzreal/ideal-cli/commit/048634e9af8e7f782e9c88195d286252b9b23493))
+
 ## [1.0.0-alpha.4](https://taylorpzreal.github.com/TaylorPzreal/ideal-cli/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2020-07-26)
 
 
