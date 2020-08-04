@@ -20,7 +20,8 @@ const scriptsObject = {
   'lint-fix': 'npm run lint -- --fix',
   format: 'prettier \'src/**/*.[tj]s?(x)\' --check --write && npm run lint-fix',
   release: 'standard-version',
-  analyze: 'webpack-bundle-analyzer analysis/stats.json'
+  analyze: 'webpack-bundle-analyzer analysis/stats.json',
+  commit: 'commit',
 }
 
 function addScript(result, script) {
@@ -39,7 +40,7 @@ function updatePackage(options = {}) {
   // update scripts
   const scriptsKeys = Object.keys(scriptsObject);
   let applyKeys = [];
-  const commonKeys = ['lint', 'lint-fix', 'format', 'release', 'analyze'];
+  const commonKeys = ['lint', 'lint-fix', 'format', 'release', 'analyze', 'commit'];
   if (isLibrary) {
     applyKeys = scriptsKeys.filter((script) => ['build-lib', 'prepublishOnly'].includes(script));
   } else {
@@ -72,7 +73,8 @@ function updatePackage(options = {}) {
   const hooks = {
     "husky": {
       "hooks": {
-        "pre-commit": "lint-staged"
+        "pre-commit": "lint-staged",
+        "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
       }
     },
     "lint-staged": {
@@ -174,7 +176,14 @@ function addFileContainer(options = {}) {
     }
   });
 
-  Promise.all([addPrettier, addProjectConfig, addLint, addTSConfig, addBabelrc]).then((values) => {
+  const addCommitlint = new Promise((resolve) => {
+    const src = path.resolve(__dirname, '..', 'files/commitlint.config.js');
+    const target = path.resolve(process.cwd(), 'commitlint.config.js');
+  
+    resolve(addFile(src, target));
+  });
+
+  Promise.all([addPrettier, addProjectConfig, addLint, addTSConfig, addBabelrc, addCommitlint]).then((values) => {
     console.log('Files added: ', values.toString());
   }).catch((err) => {
     console.log(err);

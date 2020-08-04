@@ -14,6 +14,7 @@ Frontend cli
 * dll
 * build analysis
 * browser compatibility
+* commit lint
 
 ### Coming soon
 

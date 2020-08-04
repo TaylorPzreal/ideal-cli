@@ -14,9 +14,15 @@ module.exports = {
     template: path.resolve(__dirname, 'src/index.html'),
   },
   WebpackDevServerConfig: {
-    historyApiFallback: true,
     host: '127.0.0.1',
     port: 8080,
+    historyApiFallback: true,
+    headers: {},
+    proxy: [{
+      contest: [],
+      target: '',
+      changeOrigin: true,
+    }],
   },
   dllVendors: [],
   useSourceMap: false,
