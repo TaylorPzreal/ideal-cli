@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.7](https://taylorpzreal.github.com/TaylorPzreal/ideal-cli/compare/v1.0.0-alpha.5...v1.0.0-alpha.7) (2020-10-22)
+
+
+### Features
+
+* add rollup ([ddb644b](https://taylorpzreal.github.com/TaylorPzreal/ideal-cli/commit/ddb644b63f6db266089ed8b874f7a936d5f30c9e))
+
+
+### Bug Fixes
+
+* dll build path error ([bc4c2ef](https://taylorpzreal.github.com/TaylorPzreal/ideal-cli/commit/bc4c2efa8b48b051f6314468acfd27bab0390249))
+
+## [1.0.0-alpha.6](https://taylorpzreal.github.com/TaylorPzreal/ideal-cli/compare/v1.0.0-alpha.5...v1.0.0-alpha.6) (2020-10-22)
+
+
+### Features
+
+* add rollup ([ddb644b](https://taylorpzreal.github.com/TaylorPzreal/ideal-cli/commit/ddb644b63f6db266089ed8b874f7a936d5f30c9e))
+
+
+### Bug Fixes
+
+* dll build path error ([bc4c2ef](https://taylorpzreal.github.com/TaylorPzreal/ideal-cli/commit/bc4c2efa8b48b051f6314468acfd27bab0390249))
+
 ## [1.0.0-alpha.5](https://taylorpzreal.github.com/TaylorPzreal/ideal-cli/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2020-08-04)
 
 
