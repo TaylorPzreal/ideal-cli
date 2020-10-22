@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.9](https://taylorpzreal.github.com/TaylorPzreal/ideal-cli/compare/v1.0.0-alpha.8...v1.0.0-alpha.9) (2020-10-22)
+
+
+### Bug Fixes
+
+* reback alpha.5 ([6d38180](https://taylorpzreal.github.com/TaylorPzreal/ideal-cli/commit/6d38180eaa9ff93522d124072a37fbbeb5daa183))
+
 ## [1.0.0-alpha.8](https://taylorpzreal.github.com/TaylorPzreal/ideal-cli/compare/v1.0.0-alpha.7...v1.0.0-alpha.8) (2020-10-22)
 
 
