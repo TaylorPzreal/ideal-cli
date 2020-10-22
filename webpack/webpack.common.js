@@ -45,11 +45,11 @@ const common = {
 // For Dll
 if (dllVendors.length > 0) {
   common.plugins.push(
-    new InterpolateWebpackPlugin([{
-      key: 'INJECT_DLL',
-      value: rootBaseProject(`${output.path}/dll*.js`),
-      type: 'PATH'
-    }]),
+    // new InterpolateWebpackPlugin([{
+    //   key: 'INJECT_DLL',
+    //   value: rootBaseProject(`${output.path}/dll*.js`),
+    //   type: 'PATH'
+    // }]),
     new DllReferencePlugin({
       context: __dirname,
       manifest: rootBaseProject(`${output.path}/dll-manifest.json`),

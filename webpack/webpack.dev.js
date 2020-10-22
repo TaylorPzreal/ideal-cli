@@ -35,6 +35,17 @@ module.exports = merge(common, {
       inject: true,
       ...HtmlWebpackPluginConfig,
     }),
+    // For Dll
+    (dllVendors.length > 0) && (() => {
+      // should has ancestor folder
+      const dllPath = rootBaseProject(`${output.path}/dll*.js`);
+
+      return new InterpolateWebpackPlugin([{
+        key: 'INJECT_DLL',
+        value: dllPath,
+        type: 'PATH'
+      }]);
+    })(),
   ],
   performance: {
     hints: false,
