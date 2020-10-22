@@ -4,7 +4,6 @@ const TerserPlugin = require('terser-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const InterpolateWebpackPlugin = require('interpolate-webpack-plugin');
 const { merge } = require('webpack-merge');
 const safePostCssParser = require('postcss-safe-parser');
 const path = require('path');
@@ -12,7 +11,7 @@ const path = require('path');
 const { common } = require('./webpack.common');
 const { rootBaseProject } = require('./config');
 const getRules = require('./rules');
-const { entry, output, HtmlWebpackPluginConfig, useSourceMap, dllVendors } = require(path.resolve(process.cwd(), 'project.config.js'));
+const { entry, output, HtmlWebpackPluginConfig, useSourceMap } = require(path.resolve(process.cwd(), 'project.config.js'));
 
 process.env.BABEL_ENV = 'production';
 process.env.NODE_ENV = 'production';
@@ -87,18 +86,6 @@ module.exports = merge(common, {
       statsFilename: rootBaseProject('analysis', 'stats.json'),
       reportFilename: rootBaseProject('analysis', 'reports.json'),
     }),
-
-    // For Dll
-    (dllVendors.length > 0) && (() => {
-      // should delete ancestor folder
-      const folders = rootBaseProject(`${output.path}/dll*.js`).split('/');
-
-      return new InterpolateWebpackPlugin([{
-        key: 'INJECT_DLL',
-        value: folders.slice(1).join('/'),
-        type: 'PATH'
-      }]);
-    })(),
   ],
   optimization: {
     // 允许你通过提供一个或多个定制过的 TerserPlugin 实例， 覆盖默认压缩工具(minimizer)。

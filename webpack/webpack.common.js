@@ -1,5 +1,5 @@
 const { ProgressPlugin, DllReferencePlugin, BannerPlugin } = require('webpack');
-// const InterpolateWebpackPlugin = require('interpolate-webpack-plugin');
+const InterpolateWebpackPlugin = require('interpolate-webpack-plugin');
 const path = require('path');
 const { rootBaseProject, moduleFileExtensions } = require('./config');
 const { dllVendors, resolve, output } = require(path.resolve(process.cwd(), 'project.config.js'));
@@ -45,11 +45,11 @@ const common = {
 // For Dll
 if (dllVendors.length > 0) {
   common.plugins.push(
-    // new InterpolateWebpackPlugin([{
-    //   key: 'INJECT_DLL',
-    //   value: rootBaseProject(`${output.path}/dll*.js`),
-    //   type: 'PATH'
-    // }]),
+    new InterpolateWebpackPlugin([{
+      key: 'INJECT_DLL',
+      value: rootBaseProject(`${output.path}/dll*.js`),
+      type: 'PATH'
+    }]),
     new DllReferencePlugin({
       context: __dirname,
       manifest: rootBaseProject(`${output.path}/dll-manifest.json`),

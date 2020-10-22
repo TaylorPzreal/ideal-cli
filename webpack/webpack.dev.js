@@ -1,9 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { merge } = require('webpack-merge');
 const path = require('path');
-const InterpolateWebpackPlugin = require('interpolate-webpack-plugin');
-const { entry, output, HtmlWebpackPluginConfig, useSourceMap, dllVendors } = require(path.resolve(process.cwd(), 'project.config.js'));
-const { rootBaseProject } = require('./config');
+const { entry, output, HtmlWebpackPluginConfig, useSourceMap } = require(path.resolve(process.cwd(), 'project.config.js'));
 
 process.env.BABEL_ENV = 'development';
 process.env.NODE_ENV = 'development';
@@ -37,17 +35,6 @@ module.exports = merge(common, {
       inject: true,
       ...HtmlWebpackPluginConfig,
     }),
-    // For Dll
-    (dllVendors.length > 0) && (() => {
-      // should has ancestor folder
-      const dllPath = rootBaseProject(`${output.path}/dll*.js`);
-
-      return new InterpolateWebpackPlugin([{
-        key: 'INJECT_DLL',
-        value: dllPath,
-        type: 'PATH'
-      }]);
-    })(),
   ],
   performance: {
     hints: false,
