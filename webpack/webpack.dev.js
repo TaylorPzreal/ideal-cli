@@ -1,7 +1,9 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { merge } = require('webpack-merge');
 const path = require('path');
-const { entry, output, HtmlWebpackPluginConfig, useSourceMap } = require(path.resolve(process.cwd(), 'project.config.js'));
+const InterpolateWebpackPlugin = require('interpolate-webpack-plugin');
+const { entry, output, HtmlWebpackPluginConfig, useSourceMap, dllVendors } = require(path.resolve(process.cwd(), 'project.config.js'));
+const { rootBaseProject } = require('./config');
 
 process.env.BABEL_ENV = 'development';
 process.env.NODE_ENV = 'development';

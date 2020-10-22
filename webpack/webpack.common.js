@@ -1,5 +1,5 @@
 const { ProgressPlugin, DllReferencePlugin, BannerPlugin } = require('webpack');
-const InterpolateWebpackPlugin = require('interpolate-webpack-plugin');
+// const InterpolateWebpackPlugin = require('interpolate-webpack-plugin');
 const path = require('path');
 const { rootBaseProject, moduleFileExtensions } = require('./config');
 const { dllVendors, resolve, output } = require(path.resolve(process.cwd(), 'project.config.js'));
