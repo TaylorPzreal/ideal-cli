@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.10](https://taylorpzreal.github.com/TaylorPzreal/ideal-cli/compare/v1.0.0-alpha.9...v1.0.0-alpha.10) (2020-10-24)
+
+
+### Bug Fixes
+
+* dll path ([df1df08](https://taylorpzreal.github.com/TaylorPzreal/ideal-cli/commit/df1df083959ae2e86759b6d8ddd80dc5307c6d18))
+
 ## [1.0.0-alpha.9](https://taylorpzreal.github.com/TaylorPzreal/ideal-cli/compare/v1.0.0-alpha.8...v1.0.0-alpha.9) (2020-10-22)
 
 
