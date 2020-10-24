@@ -21,9 +21,17 @@ class InterpolateDll {
         async (data, cb) => {
           // Manipulate the content
           const { key, value } = this.option;
+          console.log('current env: ', process.env.NODE_ENV);
 
           const files = glob.sync(value);
-          const dllPath = files[0].replace(output.path, '');
+          let dllPath;
+
+          if (process.env.NODE_ENV === 'development') {
+            const projectPath = process.cwd().replace(/\\/g, '/')
+            dllPath = files[0].replace(projectPath, '');
+          } else {
+            dllPath = files[0].replace(output.path, '');
+          }          
 
           data.html = data.html.replace(key, dllPath);
           // Tell webpack to move on
@@ -35,7 +43,6 @@ class InterpolateDll {
 }
 
 const common = {
-  stats: 'verbose',
   resolve: {
     // 告诉 webpack 解析模块时应该搜索的目录
     modules: ['node_modules'],

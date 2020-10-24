@@ -2,6 +2,7 @@ const { moduleRegex, constants, getStyleLoaders, browserCompatibilityPreset, bab
 const path = require('path');
 
 function getRules(useSourceMap) {
+  console.log(process.env.NODE_ENV, 'Rule building');
   const isProduction = process.env.NODE_ENV === 'production';
 
   return [

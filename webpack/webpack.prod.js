@@ -1,3 +1,4 @@
+const { EnvironmentPlugin } = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -13,8 +14,8 @@ const { rootBaseProject } = require('./config');
 const getRules = require('./rules');
 const { entry, output, HtmlWebpackPluginConfig, useSourceMap } = require(path.resolve(process.cwd(), 'project.config.js'));
 
-process.env.BABEL_ENV = 'production';
-process.env.NODE_ENV = 'production';
+// process.env.BABEL_ENV = 'production';
+// process.env.NODE_ENV = 'production';
 
 process.on('unhandledRejection', err => {
   console.log('------ Promise unhandled rejection ------');
@@ -85,6 +86,11 @@ module.exports = merge(common, {
       generateStatsFile: true,
       statsFilename: rootBaseProject('analysis', 'stats.json'),
       reportFilename: rootBaseProject('analysis', 'reports.json'),
+    }),
+
+    new EnvironmentPlugin({
+      NODE_ENV: 'production',
+      DEBUG: false,
     }),
   ],
   optimization: {

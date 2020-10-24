@@ -1,10 +1,11 @@
+const { EnvironmentPlugin } = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { merge } = require('webpack-merge');
 const path = require('path');
 const { entry, output, HtmlWebpackPluginConfig, useSourceMap } = require(path.resolve(process.cwd(), 'project.config.js'));
 
-process.env.BABEL_ENV = 'development';
-process.env.NODE_ENV = 'development';
+// process.env.BABEL_ENV = 'development';
+// process.env.NODE_ENV = 'development';
 
 process.on('unhandledRejection', err => {
   console.log('------ Promise unhandled rejection ------');
@@ -15,6 +16,7 @@ const { common } = require('./webpack.common');
 const getRules = require('./rules');
 
 module.exports = merge(common, {
+  stats: 'verbose',
   mode: 'development',
   devtool: 'cheap-module-source-map',
   entry: {
@@ -34,6 +36,10 @@ module.exports = merge(common, {
     new HtmlWebpackPlugin({
       inject: true,
       ...HtmlWebpackPluginConfig,
+    }),
+    new EnvironmentPlugin({
+      NODE_ENV: 'development',
+      DEBUG: true,
     }),
   ],
   performance: {

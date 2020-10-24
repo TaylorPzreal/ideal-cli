@@ -7,8 +7,8 @@ const getRules = require("./rules");
 const { moduleFileExtensions, rootBaseProject } = require("./config");
 const { entry, output, externals = [], useSourceMap } = require(path.resolve(process.cwd(), 'project.config.js'));
 
-process.env.BABEL_ENV = "production";
-process.env.NODE_ENV = "production";
+// process.env.BABEL_ENV = "production";
+// process.env.NODE_ENV = "production";
 
 module.exports = {
   mode: "production",

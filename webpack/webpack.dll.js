@@ -5,7 +5,7 @@ const { rootBaseProject, moduleFileExtensions } = require('./config');
 const { dllVendors, output } = require(path.resolve(process.cwd(), 'project.config.js'));
 
 module.exports = {
-  mode: 'production',
+  // mode: 'production',
   entry: {
     dll: dllVendors
   },

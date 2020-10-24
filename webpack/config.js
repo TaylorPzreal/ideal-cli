@@ -29,6 +29,8 @@ const constants = {
 
 // common function to get style loaders
 const getStyleLoaders = (useSourceMap, cssOptions, preProcessor) => {
+  console.log(process.env.NODE_ENV, 'Style building');
+
   const isDevelopment = process.env.NODE_ENV === 'development';
   const isProduction = process.env.NODE_ENV === 'production';
 
