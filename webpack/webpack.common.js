@@ -1,10 +1,41 @@
 const { ProgressPlugin, DllReferencePlugin, BannerPlugin } = require('webpack');
-const InterpolateWebpackPlugin = require('interpolate-webpack-plugin');
+// const InterpolateWebpackPlugin = require('interpolate-webpack-plugin');
 const path = require('path');
 const { rootBaseProject, moduleFileExtensions } = require('./config');
 const { dllVendors, resolve, output } = require(path.resolve(process.cwd(), 'project.config.js'));
+const glob = require('glob');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+class InterpolateDll {
+  constructor(option) {
+    this.option = option;
+  }
+
+  apply (compiler) {
+    compiler.hooks.compilation.tap('InterpolateDll', (compilation) => {
+      console.log('~~~~~~ The compiler is starting a new compilation... ~~~~~~')
+
+      // Static Plugin interface |compilation |HOOK NAME | register listener 
+      HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync(
+        'InterpolateDll', // <-- Set a meaningful name here for stacktraces
+        async (data, cb) => {
+          // Manipulate the content
+          const { key, value } = this.option;
+
+          const files = glob.sync(value);
+          const dllPath = files[0].replace(output.path, '');
+
+          data.html = data.html.replace(key, dllPath);
+          // Tell webpack to move on
+          cb(null, data)
+        }
+      )
+    })
+  }
+}
 
 const common = {
+  stats: 'verbose',
   resolve: {
     // 告诉 webpack 解析模块时应该搜索的目录
     modules: ['node_modules'],
@@ -45,11 +76,10 @@ const common = {
 // For Dll
 if (dllVendors.length > 0) {
   common.plugins.push(
-    new InterpolateWebpackPlugin([{
-      key: 'INJECT_DLL',
+    new InterpolateDll({
+      key: '%INJECT_DLL%',
       value: rootBaseProject(`${output.path}/dll*.js`),
-      type: 'PATH'
-    }]),
+    }),
     new DllReferencePlugin({
       context: __dirname,
       manifest: rootBaseProject(`${output.path}/dll-manifest.json`),
